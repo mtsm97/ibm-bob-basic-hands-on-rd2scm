@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bob FAQ - よくある質問と回答">
+  <title>Bob FAQ - よくある質問</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="header">
+    <div class="container">
+      <div class="header__top">
+        <a href="https://www.ibm.com/products/bob" target="_blank" rel="noopener noreferrer" class="header__logo-link" aria-label="IBM Bob 製品ページへ">
+          <img src="bob.svg" alt="Bob" class="header__logo">
+        </a>
+        <h1 class="header__title">Bob FAQ</h1>
+        <button id="themeToggle" class="theme-toggle" aria-label="ダークモード切り替え">
+          <span class="theme-toggle__icon">🌙</span>
+        </button>
+      </div>
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-box__input"
+          placeholder="FAQ を検索..."
+          aria-label="FAQ を検索"
+        >
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="main">
+    <div class="container">
+      <div id="faqContainer" class="faq-container">
+        <!-- JavaScript で動的生成 -->
+      </div>
+      <div id="noResults" class="no-results" style="display: none;">
+        該当する FAQ が見つかりませんでした
+      </div>
+    </div>
+  </main>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Bob FAQ</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript 読み込み -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
