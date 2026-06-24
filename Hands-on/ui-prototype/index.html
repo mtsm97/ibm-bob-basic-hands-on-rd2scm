@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaterialDX基盤 - UIプロトタイプ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ログイン画面 -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>🔬 MaterialDX 基盤</h1>
+                <p>材料探索プラットフォーム</p>
+            </div>
+            
+            <form class="login-form" id="login-form">
+                <div class="form-group">
+                    <label for="user-id">ユーザーID</label>
+                    <input type="text" id="user-id" class="form-input" placeholder="ユーザーIDを入力" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">パスワード</label>
+                    <input type="password" id="password" class="form-input" placeholder="パスワードを入力" required>
+                </div>
+                
+                <button type="submit" class="btn btn-login">ログイン</button>
+                
+                <div class="login-info">
+                    <p>💡 デモ用: 任意のIDとパスワードでログインできます</p>
+                </div>
+            </form>
+            
+            <div class="login-footer">
+                <p>© 2026 IBM Research - MaterialDX Platform</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- メインアプリケーション -->
+    <div id="main-app" class="main-app" style="display: none;">
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">MaterialDX 基盤</h1>
+            <div class="user-info">
+                <span class="user-name">👤 研究者</span>
+                <button class="settings-btn">⚙️ 設定</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ナビゲーション -->
+    <nav class="nav">
+        <button class="nav-btn active" data-view="interactive">💬 対話型UI</button>
+        <button class="nav-btn" data-view="finetune">🔧 Fine-Tune</button>
+        <button class="nav-btn" data-view="dashboard">📊 ダッシュボード</button>
+        <button class="nav-btn" data-view="history">📚 履歴</button>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <main class="main">
+        <!-- 対話型UI画面 -->
+        <div id="interactive-view" class="view active">
+            <div class="view-header">
+                <h2>💬 対話型UI - 材料探索アシスタント</h2>
+            </div>
+            
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message user-message">
+                        <div class="message-avatar">👤</div>
+                        <div class="message-content">
+                            <p>PFAS分解に最適な触媒を探索してください</p>
+                        </div>
+                    </div>
+                    
+                    <div class="message ai-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>分析を開始します...</p>
+                            <div class="task-progress">
+                                <div class="task-item completed">
+                                    <span class="task-icon">✓</span>
+                                    <span class="task-name">タスク1: データ分析</span>
+                                </div>
+                                <div class="task-item in-progress">
+                                    <span class="task-icon">⏳</span>
+                                    <span class="task-name">タスク2: 予測モデル実行</span>
+                                </div>
+                                <div class="task-item pending">
+                                    <span class="task-icon">○</span>
+                                    <span class="task-name">タスク3: 最適化計算</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="message ai-message" id="result-message" style="display: none;">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <p>分析が完了しました。</p>
+                            <div class="result-box">
+                                <h4>候補物質:</h4>
+                                <ul>
+                                    <li>TiO2 (信頼度: 78%)</li>
+                                    <li>ZnO (信頼度: 82%)</li>
+                                    <li>CeO2 (信頼度: 85%)</li>
+                                </ul>
+                                <div class="accuracy-warning">
+                                    <span class="warning-icon">⚠️</span>
+                                    <span>精度: 78% (推奨: 85%以上)</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary">📊 グラフ表示</button>
+                                <button class="btn btn-secondary">📄 詳細を見る</button>
+                            </div>
+                            <div class="suggestion-box">
+                                <p>💡 このモデルの精度を向上させますか？</p>
+                                <button class="btn btn-primary" id="start-finetune-btn">🔧 Fine-Tuneを開始</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" placeholder="メッセージを入力..." id="chat-input">
+                    <button class="send-btn" id="send-btn">送信</button>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-action-btn">📊 結果を保存</button>
+                    <button class="quick-action-btn">📤 レポート出力</button>
+                    <button class="quick-action-btn">🔄 再実行</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fine-Tune UI画面 -->
+        <div id="finetune-view" class="view">
+            <div class="view-header">
+                <h2>🔧 Fine-Tune UI - モデル最適化</h2>
+            </div>
+            
+            <div class="finetune-container">
+                <!-- ステップ1: モデル選択 -->
+                <div class="finetune-step" id="finetune-step1">
+                    <div class="step-header">
+                        <h3>ステップ 1/5: モデル選択</h3>
+                    </div>
+                    
+                    <div class="model-selection">
+                        <div class="model-option">
+                            <input type="radio" name="model" id="model1" checked>
+                            <label for="model1">
+                                <strong>触媒性能予測モデル</strong>
+                                <span class="model-accuracy">現在の精度: 85%</span>
+                            </label>
+                        </div>
+                        <div class="model-option">
+                            <input type="radio" name="model" id="model2">
+                            <label for="model2">
+                                <strong>材料安定性予測モデル</strong>
+                                <span class="model-accuracy">現在の精度: 78%</span>
+                            </label>
+                        </div>
+                        <div class="model-option">
+                            <input type="radio" name="model" id="model3">
+                            <label for="model3">
+                                <strong>反応速度予測モデル</strong>
+                                <span class="model-accuracy">現在の精度: 82%</span>
+                            </label>
+                        </div>
+                        
+                        <div class="recommendation-box">
+                            <p>💡 対話型UIからの推奨:</p>
+                            <p>触媒性能予測モデルの精度向上が効果的です</p>
+                            <button class="btn btn-secondary">この推奨を適用</button>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn btn-secondary">キャンセル</button>
+                        <button class="btn btn-primary" id="next-step-btn">次へ →</button>
+                    </div>
+                </div>
+                
+                <!-- ステップ2: 最適化パラメーター設定 -->
+                <div class="finetune-step" id="finetune-step2" style="display: none;">
+                    <div class="step-header">
+                        <h3>ステップ 2/5: 最適化パラメーター設定</h3>
+                    </div>
+                    
+                    <div class="parameter-container">
+                        <div class="parameter-section">
+                            <h4>🎯 最適化目標</h4>
+                            <div class="parameter-group">
+                                <label for="optimization-target">最適化対象:</label>
+                                <select id="optimization-target" class="parameter-input">
+                                    <option value="accuracy">精度 (Accuracy)</option>
+                                    <option value="loss">損失関数 (Loss)</option>
+                                    <option value="f1">F1スコア</option>
+                                    <option value="balanced">バランス型</option>
+                                </select>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="target-accuracy">目標精度 (%):</label>
+                                <input type="number" id="target-accuracy" class="parameter-input" value="90" min="80" max="99" step="1">
+                                <span class="parameter-hint">現在: 85% → 目標: 90%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="parameter-section">
+                            <h4>⚙️ 学習パラメーター</h4>
+                            <div class="parameter-group">
+                                <label for="learning-rate">学習率 (Learning Rate):</label>
+                                <input type="number" id="learning-rate" class="parameter-input" value="0.001" min="0.0001" max="0.1" step="0.0001">
+                                <span class="parameter-hint">推奨: 0.001 - 0.01</span>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="batch-size">バッチサイズ:</label>
+                                <select id="batch-size" class="parameter-input">
+                                    <option value="16">16</option>
+                                    <option value="32" selected>32</option>
+                                    <option value="64">64</option>
+                                    <option value="128">128</option>
+                                </select>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="epochs">エポック数:</label>
+                                <input type="number" id="epochs" class="parameter-input" value="100" min="10" max="500" step="10">
+                                <span class="parameter-hint">推定時間: 約2-3時間</span>
+                            </div>
+                        </div>
+                        
+                        <div class="parameter-section">
+                            <h4>🔧 Decision Optimization設定</h4>
+                            <div class="parameter-group">
+                                <label for="optimization-method">最適化手法:</label>
+                                <select id="optimization-method" class="parameter-input">
+                                    <option value="cplex">CPLEX (高精度)</option>
+                                    <option value="genetic" selected>遺伝的アルゴリズム (バランス)</option>
+                                    <option value="gradient">勾配降下法 (高速)</option>
+                                    <option value="bayesian">ベイズ最適化 (効率的)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="constraint-type">制約条件:</label>
+                                <select id="constraint-type" class="parameter-input">
+                                    <option value="none">なし</option>
+                                    <option value="resource" selected>リソース制約あり</option>
+                                    <option value="time">時間制約あり</option>
+                                    <option value="custom">カスタム</option>
+                                </select>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="cpu-cores">使用CPUコア数:</label>
+                                <input type="number" id="cpu-cores" class="parameter-input" value="8" min="1" max="32" step="1">
+                                <span class="parameter-hint">IBM Cloud CPU: 最大32コア</span>
+                            </div>
+                        </div>
+                        
+                        <div class="parameter-section">
+                            <h4>📊 データ設定</h4>
+                            <div class="parameter-group">
+                                <label for="training-data-ratio">学習データ比率 (%):</label>
+                                <input type="range" id="training-data-ratio" class="parameter-slider" value="80" min="60" max="90" step="5">
+                                <span class="parameter-value" id="training-ratio-value">80%</span>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label for="validation-data-ratio">検証データ比率 (%):</label>
+                                <input type="range" id="validation-data-ratio" class="parameter-slider" value="15" min="5" max="30" step="5">
+                                <span class="parameter-value" id="validation-ratio-value">15%</span>
+                            </div>
+                            
+                            <div class="parameter-group">
+                                <label>
+                                    <input type="checkbox" id="data-augmentation" checked>
+                                    データ拡張を使用
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="parameter-summary">
+                            <h4>📋 設定サマリー</h4>
+                            <div class="summary-grid">
+                                <div class="summary-item">
+                                    <span class="summary-label">最適化手法:</span>
+                                    <span class="summary-value" id="summary-method">遺伝的アルゴリズム</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">目標精度:</span>
+                                    <span class="summary-value" id="summary-target">90%</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">推定時間:</span>
+                                    <span class="summary-value" id="summary-time">2-3時間</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span class="summary-label">使用リソース:</span>
+                                    <span class="summary-value" id="summary-resource">IBM Cloud CPU (8コア)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step-actions">
+                        <button class="btn btn-secondary" id="back-to-model-btn">← 戻る</button>
+                        <button class="btn btn-primary" id="start-optimization-btn">🚀 最適化を開始</button>
+                    </div>
+                </div>
+                
+                <!-- ステップ3: 学習中 -->
+                <div class="finetune-step" id="finetune-step3" style="display: none;">
+                    <div class="step-header">
+                        <h3>🔧 Fine-Tune UI - 学習中</h3>
+                    </div>
+                    
+                    <div class="training-progress">
+                        <div class="progress-header">
+                            <span>学習進捗: Epoch <span id="current-epoch">15</span>/100 (<span id="progress-percent">15</span>%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <h4>Loss</h4>
+                                <div class="metric-value" id="loss-value">0.234</div>
+                                <div class="metric-chart">📉</div>
+                            </div>
+                            <div class="metric-card">
+                                <h4>Accuracy</h4>
+                                <div class="metric-value" id="accuracy-value">87.5%</div>
+                                <div class="metric-chart">📈</div>
+                            </div>
+                        </div>
+                        
+                        <div class="resource-info">
+                            <p>GPU使用率: <span id="gpu-usage">95%</span> | メモリ: <span id="memory-usage">14.2GB/16GB</span></p>
+                            <p>推定残り時間: <span id="remaining-time">2時間 15分</span></p>
+                        </div>
+                        
+                        <div class="training-actions">
+                            <button class="btn btn-secondary">一時停止</button>
+                            <button class="btn btn-secondary">停止</button>
+                            <button class="btn btn-primary" id="complete-training-btn">完了をシミュレート</button>
+                        </div>
+                        
+                        <div class="info-box">
+                            <p>💡 学習完了後、対話型UIで新しいモデルを試せます</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ステップ3: 完了 -->
+                <div class="finetune-step" id="finetune-step3" style="display: none;">
+                    <div class="step-header">
+                        <h3>✅ Fine-Tune完了</h3>
+                    </div>
+                    
+                    <div class="completion-content">
+                        <div class="success-message">
+                            <span class="success-icon">🎉</span>
+                            <h3>新しいモデル v2.1 が利用可能です</h3>
+                        </div>
+                        
+                        <div class="model-comparison">
+                            <h4>モデル比較</h4>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>旧モデル v2.0</th>
+                                        <th>新モデル v2.1</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>精度</td>
+                                        <td>85%</td>
+                                        <td class="improved">92% ↑</td>
+                                    </tr>
+                                    <tr>
+                                        <td>応答時間</td>
+                                        <td>3.5秒</td>
+                                        <td class="improved">2.8秒 ↓</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GPU使用</td>
+                                        <td>高</td>
+                                        <td class="improved">中</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="completion-actions">
+                            <button class="btn btn-secondary">さらにFine-Tune</button>
+                            <button class="btn btn-primary" id="test-new-model-btn">対話型UIで試す →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ダッシュボード画面 -->
+        <div id="dashboard-view" class="view">
+            <div class="view-header">
+                <h2>📊 ダッシュボード - 全体概要</h2>
+            </div>
+            
+            <div class="dashboard-container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>対話型UI 統計</h3>
+                        <div class="stat-item">
+                            <span class="stat-label">今日の実行:</span>
+                            <span class="stat-value">24回</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">成功率:</span>
+                            <span class="stat-value">95%</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">平均応答:</span>
+                            <span class="stat-value">3.2秒</span>
+                        </div>
+                        <button class="btn btn-secondary">詳細を見る</button>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <h3>Fine-Tune 統計</h3>
+                        <div class="stat-item">
+                            <span class="stat-label">進行中:</span>
+                            <span class="stat-value">1ジョブ</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">完了:</span>
+                            <span class="stat-value">3ジョブ</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">待機中:</span>
+                            <span class="stat-value">0ジョブ</span>
+                        </div>
+                        <button class="btn btn-secondary">詳細を見る</button>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>モデル精度の推移</h3>
+                    <div class="chart-placeholder">
+                        <p>📈 グラフ表示エリア</p>
+                        <p>（実装時にChart.jsなどで可視化）</p>
+                    </div>
+                </div>
+                
+                <div class="activity-feed">
+                    <h3>最近のアクティビティ</h3>
+                    <div class="activity-item">
+                        <span class="activity-time">15:30</span>
+                        <span class="activity-text">Fine-Tune完了: 触媒性能予測モデル v2.1</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">14:45</span>
+                        <span class="activity-text">対話型UI: 新規材料探索クエリ実行</span>
+                    </div>
+                    <div class="activity-item">
+                        <span class="activity-time">13:20</span>
+                        <span class="activity-text">Fine-Tune開始: 反応速度予測モデル</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 履歴画面 -->
+        <div id="history-view" class="view">
+            <div class="view-header">
+                <h2>📚 履歴</h2>
+            </div>
+            
+            <div class="history-container">
+                <p>過去の実行履歴が表示されます</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 通知エリア -->
+    <div class="notification-container" id="notification-container"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
